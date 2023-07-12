@@ -35,16 +35,29 @@ function App() {
       body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis consequatur expedita, assumenda similique non optio! Modi nesciunt excepturi corrupti atque blanditiis quo nobis, non optio quae possimus illum exercitationem ipsa!"
     }
   ])
+  const navigate =useNavigate();
   const [search, setSearch] = useState('');
-  const [searchResults,setSearchResults]=useState([])
+  const [postTitle,setPostTitle]=useState('');
+  const [postBody,setPostBody]=useState('');
+  const [searchResults,setSearchResults]=useState([]);
+  const handleSubmit=(e)=>{
+    e.preventDefault()
+    const id=posts.length ? posts[posts.length-1].d +1 :1;
+    const datefns='';
+      }
+  const handleDelete=(id)=>{
+    const postsList=posts.filter(post=>post.id!==id);
+  setPosts(postsList);
+  navigate('/');
+   }
   return (
     <div className="App">
     <Header title="React JS Blog"/>
     <Nav search={search} setSearch={setSearch}/>
     <Routes>
       <Route exact  path="/" element={<Home posts={posts} />}/>
-      <Route exact path='/post' element={<NewPost/>}></Route>
-        <Route path="/post/:id" element={<PostPage/>}></Route>
+      <Route exact path='/post' element={<NewPost postTitle={postTitle} setPostTitle={setPostTitle} handleSubmit={handleSubmit}  postBody={postBody} setPostBody={setPostBody}/>}></Route>
+        <Route path="/post/:id" element={<PostPage posts={posts} handleDelete={handleDelete}/>}></Route>
         <Route path="/about" element={<About/>}/>
         <Route path="*" element={<Missing/> } />
     </Routes>
