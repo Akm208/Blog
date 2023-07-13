@@ -8,6 +8,7 @@ import NewPost from './NewPost';
 import PostPage from './PostPage';
 import About from './About';
 import Missing from './Missing';
+import {format} from 'date-fns'
 function App() {
   const [posts, setPosts] = useState([
     {
@@ -40,10 +41,23 @@ function App() {
   const [postTitle,setPostTitle]=useState('');
   const [postBody,setPostBody]=useState('');
   const [searchResults,setSearchResults]=useState([]);
+  useEffect(()=>{
+const filteredResults=posts.filter(post=>(
+  ((post.body).toLowerCase()).includes(search.toLocaleLowerCase())
+  || ((post.title).toLowerCase()).includes(search.toLocaleLowerCase())
+));
+setSearchResults(filteredResults.reverse());
+  },[posts,search])
   const handleSubmit=(e)=>{
     e.preventDefault()
     const id=posts.length ? posts[posts.length-1].d +1 :1;
-    const datefns='';
+    const datetime=format(new Date (), 'MMMM dd,yyyy pp');
+    const newPost={id,title:postTitle,datetime,body:postBody};
+    const allPosts=[...posts,newPost];
+    setPosts(allPosts);
+    setPostTitle('');
+    setPostBody('');
+    navigate('/');
       }
   const handleDelete=(id)=>{
     const postsList=posts.filter(post=>post.id!==id);
@@ -55,7 +69,7 @@ function App() {
     <Header title="React JS Blog"/>
     <Nav search={search} setSearch={setSearch}/>
     <Routes>
-      <Route exact  path="/" element={<Home posts={posts} />}/>
+      <Route exact  path="/" element={<Home posts={searchResults} />}/>
       <Route exact path='/post' element={<NewPost postTitle={postTitle} setPostTitle={setPostTitle} handleSubmit={handleSubmit}  postBody={postBody} setPostBody={setPostBody}/>}></Route>
         <Route path="/post/:id" element={<PostPage posts={posts} handleDelete={handleDelete}/>}></Route>
         <Route path="/about" element={<About/>}/>
