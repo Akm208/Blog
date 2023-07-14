@@ -1,3 +1,16 @@
 {
-  "posts": []
+  "posts": [
+    {
+      "id": 2,
+      "title": "ddffdfd",
+      "datetime": "July 14,2023 7:39:25 AM",
+      "body": "dsdfsf"
+    },
+    {
+      "id": 1,
+      "title": "Redux Toolkit",
+      "datetime": "July 14,2023 7:52:30 AM",
+      "body": "kkkk"
+    }
+  ]
 }
